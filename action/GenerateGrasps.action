@@ -1,10 +1,12 @@
-#goal
+# Goal pose from where to generate grasps around
 geometry_msgs/Pose pose
+# With of the bounding box of the object
 float64 width
+# Options, see it's definition
 moveit_simple_grasps/GraspGeneratorOptions[] options
 ---
-#result
+# Resulting grasps
 moveit_msgs/Grasp[] grasps
 ---
-#feedback
+# Generated grasps until current publishing of feedback
 moveit_msgs/Grasp[] grasps
