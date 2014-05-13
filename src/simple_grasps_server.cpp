@@ -138,7 +138,7 @@ namespace moveit_simple_grasps
     {
       // ---------------------------------------------------------------------------------------------
       // Load grasp data specific to our robot
-      if (!grasp_data_.loadRobotGraspData(nh_, side_))
+        if (!grasp_data_.loadRobotGraspData(nh_, side_ + "_hand"))
         ros::shutdown();
 
       // ---------------------------------------------------------------------------------------------
