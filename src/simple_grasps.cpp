@@ -99,9 +99,8 @@ bool SimpleGrasps::generateAxisGrasps(
 
   // ---------------------------------------------------------------------------------------------
   // Angle calculations
-  double radius = grasp_data.grasp_depth_; //0.12
+  double radius = grasp_data.grasp_depth_;
   double xb;
-  double yb = 0.0; // stay in the y plane of the object
   double zb;
   double theta1 = 0.0; // Where the point is located around the object
   const double theta2 = direction == UP ? 0.0 : M_PI; // EEF direction (UP/DOWN) rotation
@@ -134,7 +133,7 @@ bool SimpleGrasps::generateAxisGrasps(
           * Eigen::AngleAxisd(-0.5*M_PI, Eigen::Vector3d::UnitZ())
           * Eigen::AngleAxisd(theta2, Eigen::Vector3d::UnitX()); // Flip 'direction'
 
-        grasp_pose.translation() = Eigen::Vector3d( yb, xb ,zb);
+        grasp_pose.translation() = Eigen::Vector3d(0., xb, zb);
 
         break;
       case Y_AXIS:
@@ -142,12 +141,15 @@ bool SimpleGrasps::generateAxisGrasps(
           Eigen::AngleAxisd(M_PI - theta1, Eigen::Vector3d::UnitY())
           *Eigen::AngleAxisd(theta2, Eigen::Vector3d::UnitX()); // Flip 'direction'
 
-        grasp_pose.translation() = Eigen::Vector3d( xb, yb ,zb);
+        grasp_pose.translation() = Eigen::Vector3d(xb, 0., zb);
 
         break;
       case Z_AXIS:
-        ROS_ERROR_STREAM_NAMED("grasp","Z Axis not implemented!");
-        return false;
+        // UP/DOWN is ignored for Z
+        grasp_pose = Eigen::AngleAxisd(0.5*M_PI - theta1, Eigen::Vector3d::UnitZ())
+            *Eigen::AngleAxisd(M_PI*0.5, Eigen::Vector3d::UnitY());
+
+        grasp_pose.translation() = Eigen::Vector3d(radius - zb/2., radius - xb/2., 0.);
 
         break;
     }
