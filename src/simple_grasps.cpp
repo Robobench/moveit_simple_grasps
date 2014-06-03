@@ -104,13 +104,7 @@ bool SimpleGrasps::generateAxisGrasps(
   double yb = 0.0; // stay in the y plane of the object
   double zb;
   double theta1 = 0.0; // Where the point is located around the object
-  double theta2 = 0.0; // UP 'direction'
-
-  // Gripper direction (UP/DOWN) rotation. UP set by default
-  if( direction == DOWN )
-  {
-    theta2 = M_PI;
-  }
+  const double theta2 = direction == UP ? 0.0 : M_PI; // EEF direction (UP/DOWN) rotation
 
   // ---------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------
